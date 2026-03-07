@@ -13,12 +13,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     chrony \
     socat \
     procps \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && systemctl disable chrony gpsd 2>/dev/null || true
 
 # Create runtime directories with correct ownership
 RUN mkdir -p /run/chrony /var/lib/chrony /var/log/chrony /run/gpsd \
     && chown -R _chrony:_chrony /run/chrony /var/lib/chrony /var/log/chrony \
-    && chmod 755 /run/chrony /var/lib/chrony /var/log/chrony
+    && chmod 750 /run/chrony \
+    && chmod 755 /var/lib/chrony /var/log/chrony
 
 # Copy configs
 COPY chrony.conf /etc/chrony/chrony.conf
