@@ -1,4 +1,4 @@
-# GPS NTP Server — gpsd + chrony on Unraid
+# cothimich
 
 A Docker container that runs `gpsd` and `chrony` together to provide a GPS-disciplined NTP server for your LAN.
 
@@ -27,7 +27,7 @@ A Docker container that runs `gpsd` and `chrony` together to provide a GPS-disci
 ## Building
 
 ```bash
-docker build -t gps-ntp .
+docker build -t cothimich .
 ```
 
 ---
@@ -47,7 +47,7 @@ docker compose up -d
 
 | Setting | Value |
 |---|---|
-| Name | `gps-ntp` |
+| Name | `cothimich` |
 | Repository | your built image or a registry tag |
 | Network Type | **Host** |
 | IPC | **Host** |
@@ -90,13 +90,13 @@ For high-accuracy PPS, you may also need:
 
 ```bash
 # Check GPS lock
-docker exec gps-ntp gpsmon
+docker exec cothimich gpsmon
 
 # Check chrony sync sources
-docker exec gps-ntp chronyc sources -v
+docker exec cothimich chronyc sources -v
 
 # Check tracking
-docker exec gps-ntp chronyc tracking
+docker exec cothimich chronyc tracking
 ```
 
 In `chronyc sources`, you want to see:

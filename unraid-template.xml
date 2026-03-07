@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>cothimich</Name>
-  <Repository>ghcr.io/shelgeyr/cothimich:latest</Repository>
+  <Repository>ghcr.io/Shelgeyr/cothimich:latest</Repository>
   <Registry>https://ghcr.io</Registry>
   <Network>host</Network>
   <MyIP/>
@@ -34,8 +34,8 @@
   <Config Name="GPS Baud Rate" Target="GPS_BAUD" Default="9600" Mode="" Description="Baud rate for your GPS receiver. Common values: 9600 (most cheap modules), 57600, 115200 (u-blox and higher-end units). Check your GPS datasheet." Type="Variable" Display="always" Required="true" Mask="false">9600</Config>
 
   <!-- Volumes -->
-  <Config Name="Chrony Drift File" Target="/var/lib/chrony" Default="/mnt/user/appdata/gps-ntp/chrony" Mode="rw" Description="Persistent storage for chrony drift file. Helps chrony sync faster after restarts." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/gps-ntp/chrony</Config>
+  <Config Name="Chrony Drift File" Target="/var/lib/chrony" Default="/mnt/user/appdata/cothimich/chrony" Mode="rw" Description="Persistent storage for chrony drift file. Helps chrony sync faster after restarts." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/cothimich/chrony</Config>
 
-  <Config Name="Chrony Logs" Target="/var/log/chrony" Default="/mnt/user/appdata/gps-ntp/logs" Mode="rw" Description="Chrony log output." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/gps-ntp/logs</Config>
+  <Config Name="Chrony Logs" Target="/var/log/chrony" Default="/mnt/user/appdata/cothimich/logs" Mode="rw" Description="Chrony log output." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/cothimich/logs</Config>
 
 </Container>
