@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>gps-ntp</Name>
-  <Repository>ghcr.io/YOURGITHUBUSERNAME/YOURREPONAME:latest</Repository>
+  <Repository>ghcr.io/Shelgeyr/cothimich:latest</Repository>
   <Registry>https://ghcr.io</Registry>
   <Network>host</Network>
   <MyIP/>
   <Shell>bash</Shell>
   <Privileged>false</Privileged>
-  <Support>https://github.com/YOURGITHUBUSERNAME/YOURREPONAME</Support>
-  <Project>https://github.com/YOURGITHUBUSERNAME/YOURREPONAME</Project>
+  <Support>https://github.com/Shelgeyr/cothimich</Support>
+  <Project>https://github.com/Shelgeyr/cothimich</Project>
   <Overview>GPS-disciplined NTP server running gpsd and chrony. Requires a USB or serial GPS receiver. Serves NTP to your LAN and exposes gpsd on port 2947 for location clients.</Overview>
   <Category>Network:Other Tools:Utilities</Category>
   <WebUI/>
-  <TemplateURL>https://raw.githubusercontent.com/YOURGITHUBUSERNAME/YOURREPONAME/main/unraid-template.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/YOURGITHUBUSERNAME/YOURREPONAME/main/icon.png</Icon>
+  <TemplateURL>https://raw.githubusercontent.com/Shelgeyr/cothimich/main/unraid-template.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/Shelgeyr/cothimich/main/icon.png</Icon>
   <ExtraParams>--cap-add=SYS_TIME --cap-add=SYS_NICE --ipc=host</ExtraParams>
   <PostArgs/>
   <CPUset/>
