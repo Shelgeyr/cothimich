@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>cothimich</Name>
-  <Repository>ghcr.io/Shelgeyr/cothimich:latest</Repository>
+  <Repository>ghcr.io/shelgeyr/cothimich:latest</Repository>
   <Registry>https://ghcr.io</Registry>
   <Network>host</Network>
   <MyIP/>
