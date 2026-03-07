@@ -7,14 +7,20 @@ LABEL org.opencontainers.image.url="https://github.com/shelgeyr/cothimich"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Prevent services from auto-starting during apt install
+RUN printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d \
+    && chmod +x /usr/sbin/policy-rc.d
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gpsd \
     gpsd-clients \
     chrony \
     socat \
     procps \
-    && rm -rf /var/lib/apt/lists/* \
-    && systemctl disable chrony gpsd 2>/dev/null || true
+    && rm -rf /var/lib/apt/lists/*
+
+# Remove the policy override now that packages are installed
+RUN rm -f /usr/sbin/policy-rc.d
 
 # Create runtime directories with correct ownership
 RUN mkdir -p /run/chrony /var/lib/chrony /var/log/chrony /run/gpsd \
@@ -29,7 +35,6 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
-# gpsd control socket and NTP
 EXPOSE 2947/tcp
 EXPOSE 123/udp
 
