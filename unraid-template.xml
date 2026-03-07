@@ -14,7 +14,7 @@
   <WebUI/>
   <TemplateURL>https://raw.githubusercontent.com/Shelgeyr/cothimich/main/unraid-template.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/Shelgeyr/cothimich/main/icon.png</Icon>
-  <ExtraParams>--cap-add=SYS_TIME --cap-add=SYS_NICE --ipc=host</ExtraParams>
+  <ExtraParams>--cap-add=SYS_TIME --cap-add=SYS_NICE --cap-add=NET_BIND_SERVICE --ipc=host</ExtraParams>
   <PostArgs/>
   <CPUset/>
   <DateInstalled/>
