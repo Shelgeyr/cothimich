@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  gps-ntp:
+    build: .
+    container_name: gps-ntp
+    restart: unless-stopped
+
+    # Required: SHM for gpsd<->chrony IPC, host network for NTP broadcast
+    ipc: host
+    network_mode: host
+
+    # GPS device passthrough — change to match your device
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      # - /dev/ttyACM0:/dev/ttyACM0  # u-blox and others
+      # - /dev/pps0:/dev/pps0         # PPS device if separate
+
+    # Needed for PPS and real-time clock discipline
+    cap_add:
+      - SYS_TIME
+      - SYS_NICE
+
+    environment:
+      - GPS_DEVICES=/dev/ttyUSB0
+      - GPS_BAUD=9600
+
+    volumes:
+      - gps-ntp-drift:/var/lib/chrony
+      - gps-ntp-logs:/var/log/chrony
+
+volumes:
+  gps-ntp-drift:
+  gps-ntp-logs:
