@@ -23,13 +23,10 @@
   <Requires>USB or serial GPS receiver</Requires>
 
   <!-- GPS Device -->
-  <Config Name="GPS Device" Target="/dev/ttyUSB0" Default="/dev/ttyUSB0" Mode="" Description="Path to your GPS receiver device. Common values: /dev/ttyUSB0 (most USB GPS), /dev/ttyACM0 (u-blox). Check Unraid terminal with: ls /dev/ttyUSB* /dev/ttyACM*" Type="Device" Display="always" Required="true" Mask="false">/dev/ttyUSB0</Config>
-
-  <!-- PPS Device (optional) -->
-  <Config Name="PPS Device (optional)" Target="/dev/pps0" Default="" Mode="" Description="PPS device for sub-millisecond accuracy. Only needed if your GPS has a PPS output pin wired up. Leave blank if unsure." Type="Device" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="GPS Device" Target="/dev/ttyACM0" Default="/dev/ttyACM0" Mode="" Description="Path to your GPS receiver device. Common values: /dev/ttyUSB0 (most USB GPS), /dev/ttyACM0 (u-blox). Check Unraid terminal with: ls /dev/ttyUSB* /dev/ttyACM*" Type="Device" Display="always" Required="true" Mask="false">/dev/ttyACM0</Config>
 
   <!-- Environment Variables -->
-  <Config Name="GPS Device Path" Target="GPS_DEVICES" Default="/dev/ttyUSB0" Mode="" Description="Must match the GPS Device mapping above." Type="Variable" Display="always" Required="true" Mask="false">/dev/ttyUSB0</Config>
+  <Config Name="GPS Device Path" Target="GPS_DEVICES" Default="/dev/ttyACM0" Mode="" Description="Must match the GPS Device mapping above." Type="Variable" Display="always" Required="true" Mask="false">/dev/ttyACM0</Config>
 
   <Config Name="GPS Baud Rate" Target="GPS_BAUD" Default="9600" Mode="" Description="Baud rate for your GPS receiver. Common values: 9600 (most cheap modules), 57600, 115200 (u-blox and higher-end units). Check your GPS datasheet." Type="Variable" Display="always" Required="true" Mask="false">9600</Config>
 
