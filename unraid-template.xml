@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>gps-ntp</Name>
+  <Repository>ghcr.io/YOURGITHUBUSERNAME/YOURREPONAME:latest</Repository>
+  <Registry>https://ghcr.io</Registry>
+  <Network>host</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/YOURGITHUBUSERNAME/YOURREPONAME</Support>
+  <Project>https://github.com/YOURGITHUBUSERNAME/YOURREPONAME</Project>
+  <Overview>GPS-disciplined NTP server running gpsd and chrony. Requires a USB or serial GPS receiver. Serves NTP to your LAN and exposes gpsd on port 2947 for location clients.</Overview>
+  <Category>Network:Other Tools:Utilities</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/YOURGITHUBUSERNAME/YOURREPONAME/main/unraid-template.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/YOURGITHUBUSERNAME/YOURREPONAME/main/icon.png</Icon>
+  <ExtraParams>--cap-add=SYS_TIME --cap-add=SYS_NICE --ipc=host</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>USB or serial GPS receiver</Requires>
+
+  <!-- GPS Device -->
+  <Config Name="GPS Device" Target="/dev/ttyUSB0" Default="/dev/ttyUSB0" Mode="" Description="Path to your GPS receiver device. Common values: /dev/ttyUSB0 (most USB GPS), /dev/ttyACM0 (u-blox). Check Unraid terminal with: ls /dev/ttyUSB* /dev/ttyACM*" Type="Device" Display="always" Required="true" Mask="false">/dev/ttyUSB0</Config>
+
+  <!-- PPS Device (optional) -->
+  <Config Name="PPS Device (optional)" Target="/dev/pps0" Default="" Mode="" Description="PPS device for sub-millisecond accuracy. Only needed if your GPS has a PPS output pin wired up. Leave blank if unsure." Type="Device" Display="advanced" Required="false" Mask="false"></Config>
+
+  <!-- Environment Variables -->
+  <Config Name="GPS Device Path" Target="GPS_DEVICES" Default="/dev/ttyUSB0" Mode="" Description="Must match the GPS Device mapping above." Type="Variable" Display="always" Required="true" Mask="false">/dev/ttyUSB0</Config>
+
+  <Config Name="GPS Baud Rate" Target="GPS_BAUD" Default="9600" Mode="" Description="Baud rate for your GPS receiver. Common values: 9600 (most cheap modules), 57600, 115200 (u-blox and higher-end units). Check your GPS datasheet." Type="Variable" Display="always" Required="true" Mask="false">9600</Config>
+
+  <!-- Volumes -->
+  <Config Name="Chrony Drift File" Target="/var/lib/chrony" Default="/mnt/user/appdata/gps-ntp/chrony" Mode="rw" Description="Persistent storage for chrony drift file. Helps chrony sync faster after restarts." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/gps-ntp/chrony</Config>
+
+  <Config Name="Chrony Logs" Target="/var/log/chrony" Default="/mnt/user/appdata/gps-ntp/logs" Mode="rw" Description="Chrony log output." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/gps-ntp/logs</Config>
+
+</Container>
