@@ -124,9 +124,9 @@ Any machine on your LAN can use cothimich as its NTP server and optionally query
 ### Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Shelgeyr/cothimich/main/setup-ntp-client.sh -o setup-ntp-client.sh
-chmod +x setup-ntp-client.sh
-sudo ./setup-ntp-client.sh
+curl -fsSL https://raw.githubusercontent.com/Shelgeyr/cothimich/main/setup-cothimich.sh -o setup-cothimich.sh
+chmod +x setup-cothimich.sh
+sudo ./setup-cothimich.sh
 ```
 
 The script will:
@@ -134,14 +134,14 @@ The script will:
 - Remove conflicting NTP daemons (systemd-timesyncd, ntpd) after asking
 - Install chrony and gpsd client tools
 - Configure chrony to use cothimich as primary NTP with NIST as fallback
-- Configure `gpsmon` and `cgps` to connect to cothimich automatically
+- Configure `cgps` to connect to cothimich automatically
 
 ### Override the Server IP
 
 By default the script targets `192.168.87.10`. Override it if needed:
 
 ```bash
-sudo NTP_SERVER=192.168.87.x ./setup-ntp-client.sh
+sudo NTP_SERVER=192.168.87.x ./setup-cothimich.sh
 ```
 
 ### Verify Client Sync
@@ -154,9 +154,8 @@ chronyc sources -v
 
 # Check GPS data from cothimich
 source /etc/profile.d/gpsd-client.sh
-cgps
+cgps 192.168.87.10
 # or
-gpsmon 192.168.87.10
 ```
 
 ### Manual chrony config (if you prefer)

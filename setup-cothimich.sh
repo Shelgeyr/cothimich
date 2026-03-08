@@ -194,7 +194,7 @@ export GPSD_HOSTS="$GPSD_HOST"
 export GPSD_PORT="$GPSD_PORT"
 EOF
     chmod +x "$profile_file"
-    success "gpsd client configured — gpsmon and cgps will connect to $GPSD_HOST:$GPSD_PORT"
+    success "gpsd client configured — use 'cgps $GPSD_HOST' to view GPS data"
     info "Note: You may need to log out and back in, or run: source $profile_file"
 }
 
@@ -221,10 +221,7 @@ verify() {
 
     echo ""
     info "To test gpsd connection run:"
-    echo "  source /etc/profile.d/gpsd-client.sh"
-    echo "  cgps"
-    echo "  # or"
-    echo "  gpsmon $GPSD_HOST"
+    echo "  cgps $GPSD_HOST"
 }
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
