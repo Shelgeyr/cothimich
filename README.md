@@ -114,3 +114,88 @@ ls /dev/ttyUSB* /dev/ttyACM*
 # Or watch for new device after plugging in:
 dmesg | tail -20
 ```
+
+---
+
+## Client Setup
+
+Any machine on your LAN can use cothimich as its NTP server and optionally query gpsd for GPS location data.
+
+### Quick Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Shelgeyr/cothimich/main/setup-ntp-client.sh -o setup-ntp-client.sh
+chmod +x setup-ntp-client.sh
+sudo ./setup-ntp-client.sh
+```
+
+The script will:
+- Detect your OS (Ubuntu/Debian and Arch supported)
+- Remove conflicting NTP daemons (systemd-timesyncd, ntpd) after asking
+- Install chrony and gpsd client tools
+- Configure chrony to use cothimich as primary NTP with NIST as fallback
+- Configure `gpsmon` and `cgps` to connect to cothimich automatically
+
+### Override the Server IP
+
+By default the script targets `192.168.87.10`. Override it if needed:
+
+```bash
+sudo NTP_SERVER=192.168.87.x ./setup-ntp-client.sh
+```
+
+### Verify Client Sync
+
+After running the script:
+
+```bash
+# Check NTP sources — cothimich should show as * or +
+chronyc sources -v
+
+# Check GPS data from cothimich
+source /etc/profile.d/gpsd-client.sh
+cgps
+# or
+gpsmon 192.168.87.10
+```
+
+### Manual chrony config (if you prefer)
+
+Add this to `/etc/chrony.conf` or `/etc/chrony/chrony.conf`:
+
+```
+server 192.168.87.10 iburst prefer
+makestep 1 3
+driftfile /var/lib/chrony/drift
+```
+
+Then restart chrony:
+```bash
+sudo systemctl restart chrony
+```
+
+---
+
+## Upgrading
+
+The container image rebuilds automatically every Sunday via GitHub Actions, picking up base image updates. On Unraid, update the container via the Docker tab or use Watchtower to automate pulls.
+
+To manually pull the latest image:
+```bash
+docker pull ghcr.io/shelgeyr/cothimich:latest
+docker restart cothimich
+```
+
+---
+
+## PPS Upgrade Path
+
+The container is ready for a PPS-capable GPS on a serial port. When you have a u-blox NEO-M8T connected to `/dev/ttyS0` with PPS wired to the DCD pin:
+
+1. In the Unraid template set:
+   - `GPS Device` → `/dev/ttyS0`
+   - `GPS Device Path` → `/dev/ttyS0`
+   - `PPS Device` → `/dev/pps0`
+2. Restart the container — PPS refclock is enabled automatically
+
+This will bring chrony accuracy down from ~1ms (NMEA) to ~1µs (PPS).
