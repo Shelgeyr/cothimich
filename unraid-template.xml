@@ -25,8 +25,6 @@
   <!-- GPS Device -->
   <Config Name="GPS Device" Target="/dev/ttyACM0" Default="/dev/ttyACM0" Mode="" Description="Path to your GPS receiver. USB dongles: /dev/ttyACM0 or /dev/ttyUSB0. Serial GPS: /dev/ttyS0." Type="Device" Display="always" Required="true" Mask="false">/dev/ttyACM0</Config>
 
-  <!-- Serial port for future PPS-capable GPS (optional) -->
-  <Config Name="Serial Port (optional)" Target="/dev/ttyS0" Default="" Mode="" Description="Serial port for PPS-capable GPS on DB9. Leave blank if using USB GPS. Set to /dev/ttyS0 when NEO-M8T is connected." Type="Device" Display="advanced" Required="false" Mask="false"></Config>
 
   <!-- Environment Variables -->
   <Config Name="GPS Device Path" Target="GPS_DEVICES" Default="/dev/ttyACM0" Mode="" Description="Must match the GPS Device mapping above. For serial GPS use /dev/ttyS0." Type="Variable" Display="always" Required="true" Mask="false">/dev/ttyACM0</Config>
