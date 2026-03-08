@@ -155,7 +155,6 @@ chronyc sources -v
 # Check GPS data from cothimich
 source /etc/profile.d/gpsd-client.sh
 cgps 192.168.87.10
-# or
 ```
 
 ### Manual chrony config (if you prefer)
@@ -172,6 +171,63 @@ Then restart chrony:
 ```bash
 sudo systemctl restart chrony
 ```
+
+---
+
+## Bridging cothimich GPS to a Virtual Serial Port
+
+Some applications expect a serial port with NMEA sentences rather than a gpsd socket. You can bridge cothimich's gpsd output to a virtual serial port using `socat` and `gpspipe`.
+
+### Requirements
+
+```bash
+sudo apt install socat gpsd-clients
+sudo usermod -aG dialout $USER  # log out and back in after this
+```
+
+### Create the virtual serial port
+
+```bash
+socat PTY,link=/tmp/ttyGPS0,raw,echo=0,b9600 EXEC:"gpspipe -r 192.168.87.10" &
+```
+
+This creates `/tmp/ttyGPS0` and streams NMEA sentences from cothimich into it. Use `/tmp` rather than `/dev` to avoid permission issues, and because sandboxed applications (e.g. Flatpaks) have easier access to `/tmp`.
+
+Verify it's working:
+```bash
+cat /tmp/ttyGPS0
+```
+
+You should see a stream of `$GPGGA`, `$GPRMC`, etc. sentences.
+
+### Flatpak applications
+
+If your application is a Flatpak, grant it filesystem access to `/tmp`:
+
+```bash
+flatpak override --user --filesystem=/tmp com.your.AppName
+```
+
+Then point the application at `/tmp/ttyGPS0` at 9600 8N1.
+
+### Run persistently
+
+To keep the bridge running and auto-restart if the connection drops:
+
+```bash
+while true; do
+    socat PTY,link=/tmp/ttyGPS0,raw,echo=0,b9600 EXEC:"gpspipe -r 192.168.87.10"
+    sleep 2
+done &
+```
+
+Or wrap it in a systemd user service for a cleaner solution on systems that run permanently.
+
+### Notes
+
+- The baud rate set on the PTY (`b9600`) is metadata only — PTYs don't enforce it, but applications that check the port configuration will see the expected value.
+- `gpspipe -r` outputs raw NMEA sentences. The JSON handshake lines that gpsd sends on connect are filtered out by gpspipe before they reach the PTY.
+- If your application's port picker only shows `/dev/ttyS*` entries and won't let you type a path manually, this approach won't work without additional kernel modules (e.g. `tty0tty`).
 
 ---
 
